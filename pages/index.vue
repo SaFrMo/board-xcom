@@ -1,5 +1,7 @@
 <template>
-    <main class="home"></main>
+    <main class="home">
+        <game-wrap />
+    </main>
 </template>
 
 <script>
