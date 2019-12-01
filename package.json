@@ -1,24 +1,24 @@
 {
-  "name": "boardxcom",
-  "version": "1.0.0",
-  "description": "My majestic Nuxt.js project",
-  "author": "Sander Moolin",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "boardgame-utils": "1.3.22",
-    "boardgame.io": "0.35.1",
-    "lodash": "4.17.15",
-    "nuxt": "^2.0.0"
-  },
-  "devDependencies": {
-    "@nuxtjs/style-resources": "1.0.0",
-    "node-sass": "4.13.0",
-    "sass-loader": "8.0.0"
-  }
+    "name": "boardxcom",
+    "version": "1.0.0",
+    "description": "My majestic Nuxt.js project",
+    "author": "Sander Moolin",
+    "private": true,
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate"
+    },
+    "dependencies": {
+        "boardgame-utils": "1.3.30",
+        "boardgame.io": "0.35.1",
+        "lodash": "4.17.15",
+        "nuxt": "^2.0.0"
+    },
+    "devDependencies": {
+        "@nuxtjs/style-resources": "1.0.0",
+        "node-sass": "4.13.0",
+        "sass-loader": "8.0.0"
+    }
 }

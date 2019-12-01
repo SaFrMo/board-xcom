@@ -57,7 +57,7 @@ export default {
      ** Build configuration
      */
     build: {
-        transpile: ['boardgame-utils'],
+        transpile: 'boardgame-utils',
         /*
          ** You can extend webpack config here
          */

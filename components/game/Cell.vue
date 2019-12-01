@@ -1,19 +1,29 @@
 <template>
     <div class="game-cell">
+        <button @click="opened = !opened" class="button">...</button>
+
+        <!-- Contents -->
         <div class="contents">
-            {{ contents }}
+            <span>{{ contents }}</span>
         </div>
+
+        <!-- Context menu -->
     </div>
 </template>
 
 <script>
-import { grid } from 'boardgame-utils'
-const { getCoordsFromIndex } = grid
-
 export default {
     props: ['index'],
+    data() {
+        return {
+            opened: false
+        }
+    },
     computed: {
         contents() {
+            const { grid } = require('boardgame-utils')
+            const { getCoordsFromIndex } = grid
+
             const coords = getCoordsFromIndex(this.index, 10)
             const val =
                 this.G.enemies.find(
@@ -42,9 +52,19 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 
+    .button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
     .contents {
-        // transform: rotateZ(-45deg);
+        transform: rotateZ(-45deg) rotateX(-45deg) translateZ(25px);
+        display: flex;
+        flex-direction: column;
     }
 }
 </style>

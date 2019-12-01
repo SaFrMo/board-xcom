@@ -41,6 +41,7 @@ export default {
 
         --isometric: 55deg; //35.264deg;
         transform: rotateX(var(--isometric)) rotateZ(45deg);
+        transform-style: preserve-3d;
     }
 }
 </style>
