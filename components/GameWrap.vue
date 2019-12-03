@@ -1,8 +1,12 @@
 <template>
     <section class="game-wrap" v-if="ready">
+        <!-- Board -->
         <div class="board">
             <game-cell v-for="(cell, i) in G.grid" :key="i" :index="i" />
         </div>
+
+        <!-- Soldier UI -->
+        <soldier-wrap />
     </section>
 </template>
 
@@ -25,6 +29,9 @@ export default {
     --side: 75px;
     --black: black;
     --white: white;
+    --selected-soldier-background: tomato;
+    --selected-soldier-color: white;
+
     text-align: center;
 
     .board {

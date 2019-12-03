@@ -1,10 +1,15 @@
 <template>
-    <div class="game-cell">
-        <button @click="opened = !opened" class="button">...</button>
+    <div
+        :class="[
+            'game-cell',
+            { 'contains-selected-soldier': containsSelectedSoldier }
+        ]"
+    >
+        <button @click="cellClicked" class="button" />
 
         <!-- Contents -->
-        <div class="contents">
-            <span>{{ contents }}</span>
+        <div class="contents" v-if="contents">
+            <span>{{ contents.name }}</span>
         </div>
 
         <!-- Context menu -->
@@ -12,6 +17,9 @@
 </template>
 
 <script>
+import { grid } from 'boardgame-utils'
+const { getCoordsFromIndex } = grid
+
 export default {
     props: ['index'],
     data() {
@@ -21,9 +29,6 @@ export default {
     },
     computed: {
         contents() {
-            const { grid } = require('boardgame-utils')
-            const { getCoordsFromIndex } = grid
-
             const coords = getCoordsFromIndex(this.index, 10)
             const val =
                 this.G.enemies.find(
@@ -38,7 +43,33 @@ export default {
                 return val
             }
 
-            return val.name
+            return val
+        },
+        containsSelectedSoldier() {
+            const contents = this.contents
+            const selected = this.G.players[
+                this.$store.state.ui.selectedSoldierIndex
+            ]
+
+            return contents && selected && contents.guid == selected.guid
+        }
+    },
+    methods: {
+        cellClicked() {
+            // TODO: movement
+            // TODO: targeting
+
+            // cancel if cell contains nothing
+            if (!this.contents) return
+
+            // if cell contains friendly unit...
+            const playerIndex = this.G.players
+                .map(p => p.guid)
+                .indexOf(this.contents.guid)
+            if (playerIndex > -1) {
+                // ...select it!
+                this.$store.commit('ui/SET_SELECTED_SOLDIER', playerIndex)
+            }
         }
     }
 }
@@ -60,11 +91,17 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
+        opacity: 0;
     }
     .contents {
         transform: rotateZ(-45deg) rotateX(-45deg) translateZ(25px);
         display: flex;
         flex-direction: column;
+    }
+
+    &.contains-selected-soldier {
+        background: var(--selected-soldier-background);
+        color: var(--selected-soldier-color);
     }
 }
 </style>
