@@ -4,8 +4,20 @@
             'game-cell',
             { 'contains-entity': contents },
             { 'contains-selected-soldier': containsSelectedSoldier },
-            { 'normal-range': apRange > 0 && apRange <= 0.5 },
-            { 'sprint-range': apRange > 0.5 && apRange <= 1 }
+            {
+                'normal-range':
+                    selectedSoldier &&
+                    selectedSoldier.ap >= 1 &&
+                    apRange > 0 &&
+                    apRange <= 1
+            },
+            {
+                'sprint-range':
+                    selectedSoldier &&
+                    selectedSoldier.ap >= 2 &&
+                    apRange > 1 &&
+                    apRange <= 2
+            }
         ]"
     >
         <button @click="cellClicked" class="button">
@@ -74,28 +86,35 @@ export default {
             // first, check if any soldier is selected
             if (!this.selectedSoldier) return false
 
-            // get total range selected soldier has
-            const availableRange =
-                this.$store.state.settings.movesPerAp * this.selectedSoldier.ap
-
-            return this.taxiDistance / availableRange
+            return this.taxiDistance / this.$store.state.settings.movesPerAp
         }
     },
     methods: {
         cellClicked() {
-            // TODO: movement
-            // TODO: targeting
+            if (!this.contents) {
+                if (this.selectedSoldier) {
+                    this.$store.dispatch('PLAY_MOVE', {
+                        move: 'movePlayer',
+                        options: {
+                            guid: this.selectedSoldier.guid,
+                            position: this.coords
+                        }
+                    })
+                }
 
-            // cancel if cell contains nothing
-            if (!this.contents) return
+                // TODO: targeting empty cell
+            } else {
+                // occupied cell...
+                // TODO: targeting
 
-            // if cell contains friendly unit...
-            const playerIndex = this.G.players
-                .map(p => p.guid)
-                .indexOf(this.contents.guid)
-            if (playerIndex > -1) {
-                // ...select it!
-                this.$store.commit('ui/SET_SELECTED_SOLDIER', playerIndex)
+                // if cell contains friendly unit...
+                const playerIndex = this.G.players
+                    .map(p => p.guid)
+                    .indexOf(this.contents.guid)
+                if (playerIndex > -1) {
+                    // ...select it!
+                    this.$store.commit('ui/SET_SELECTED_SOLDIER', playerIndex)
+                }
             }
         }
     }

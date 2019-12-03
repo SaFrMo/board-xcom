@@ -1,6 +1,5 @@
+import settings from '~/lib/game/settings'
+
 export const state = () => {
-    return {
-        movesPerAp: 2,
-        boardWidth: 10
-    }
+    return settings
 }
