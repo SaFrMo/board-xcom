@@ -2,7 +2,10 @@
     <div
         :class="[
             'game-cell',
-            { 'contains-selected-soldier': containsSelectedSoldier }
+            { 'contains-entity': contents },
+            { 'contains-selected-soldier': containsSelectedSoldier },
+            { 'normal-range': apRange > 0 && apRange <= 0.5 },
+            { 'sprint-range': apRange > 0.5 && apRange <= 1 }
         ]"
     >
         <button @click="cellClicked" class="button">
@@ -18,7 +21,7 @@
 
 <script>
 import { grid } from 'boardgame-utils'
-const { getCoordsFromIndex } = grid
+const { getCoordsFromIndex, taxicabDistance } = grid
 
 export default {
     props: ['index'],
@@ -28,14 +31,20 @@ export default {
         }
     },
     computed: {
+        coords() {
+            return getCoordsFromIndex(this.index, 10)
+        },
         contents() {
-            const coords = getCoordsFromIndex(this.index, 10)
             const val =
                 this.G.enemies.find(
-                    x => x.position.x == coords.x && x.position.y == coords.y
+                    x =>
+                        x.position.x == this.coords.x &&
+                        x.position.y == this.coords.y
                 ) ||
                 this.G.players.find(
-                    x => x.position.x == coords.x && x.position.y == coords.y
+                    x =>
+                        x.position.x == this.coords.x &&
+                        x.position.y == this.coords.y
                 )
 
             // empty
@@ -45,13 +54,31 @@ export default {
 
             return val
         },
+        selectedSoldier() {
+            return this.G.players[this.$store.state.ui.selectedSoldierIndex]
+        },
         containsSelectedSoldier() {
             const contents = this.contents
-            const selected = this.G.players[
-                this.$store.state.ui.selectedSoldierIndex
-            ]
 
-            return contents && selected && contents.guid == selected.guid
+            return (
+                contents &&
+                this.selectedSoldier &&
+                contents.guid == this.selectedSoldier.guid
+            )
+        },
+        taxiDistance() {
+            // then, get the taxicab distance from here to the soldier
+            return taxicabDistance(this.coords, this.selectedSoldier.position)
+        },
+        apRange() {
+            // first, check if any soldier is selected
+            if (!this.selectedSoldier) return false
+
+            // get total range selected soldier has
+            const availableRange =
+                this.$store.state.settings.movesPerAp * this.selectedSoldier.ap
+
+            return this.taxiDistance / availableRange
         }
     },
     methods: {
@@ -98,6 +125,12 @@ export default {
         flex-direction: column;
     }
 
+    &.normal-range:not(.contains-entity) {
+        background: var(--normal-range-background);
+    }
+    &.sprint-range:not(.contains-entity) {
+        background: var(--sprint-range-background);
+    }
     &.contains-selected-soldier {
         background: var(--selected-soldier-background);
         color: var(--selected-soldier-color);

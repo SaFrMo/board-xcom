@@ -29,8 +29,12 @@ export default {
     --side: 75px;
     --black: black;
     --white: white;
+
     --selected-soldier-background: tomato;
     --selected-soldier-color: white;
+
+    --normal-range-background: blue;
+    --sprint-range-background: yellow;
 
     text-align: center;
 
