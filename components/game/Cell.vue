@@ -5,14 +5,14 @@
             { 'contains-selected-soldier': containsSelectedSoldier }
         ]"
     >
-        <button @click="cellClicked" class="button" />
+        <button @click="cellClicked" class="button">
+            <!-- Contents -->
+            <div class="contents" v-if="contents">
+                <span>{{ contents.name }}</span>
+            </div>
 
-        <!-- Contents -->
-        <div class="contents" v-if="contents">
-            <span>{{ contents.name }}</span>
-        </div>
-
-        <!-- Context menu -->
+            <!-- Context menu -->
+        </button>
     </div>
 </template>
 
@@ -91,7 +91,6 @@ export default {
         left: 0;
         width: 100%;
         height: 100%;
-        opacity: 0;
     }
     .contents {
         transform: rotateZ(-45deg) rotateX(-45deg) translateZ(25px);

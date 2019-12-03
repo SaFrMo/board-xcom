@@ -34,6 +34,19 @@ export default {
 
     text-align: center;
 
+    button {
+        cursor: pointer;
+        appearance: none;
+        border: none;
+        font-family: inherit;
+        font-size: inherit;
+        padding: 0;
+        display: block;
+        outline: none;
+        color: inherit;
+        background: transparent;
+    }
+
     .board {
         display: inline-grid;
         grid-template: repeat(10, var(--side)) / repeat(10, var(--side));

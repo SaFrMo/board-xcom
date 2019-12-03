@@ -11,7 +11,9 @@ export default {
 </script>
 
 <style lang="scss">
-.soldier-selector {
+button.soldier-selector {
+    padding: 5px;
+
     &.selected {
         background: var(--selected-soldier-background);
         color: var(--selected-soldier-color);
