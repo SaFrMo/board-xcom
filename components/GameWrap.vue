@@ -2,7 +2,11 @@
     <section class="game-wrap" v-if="ready">
         <!-- Board -->
         <div class="board">
-            <game-cell v-for="(cell, i) in G.grid" :key="i" :index="i" />
+            <game-cell
+                v-for="i in G.gridWidth * G.gridHeight"
+                :key="i - 1"
+                :index="i - 1"
+            />
         </div>
 
         <!-- Soldier UI -->

@@ -44,20 +44,17 @@ export default {
     },
     computed: {
         coords() {
-            return getCoordsFromIndex(this.index, 10)
+            return getCoordsFromIndex(
+                this.index,
+                this.$store.state.boardgame.G.gridWidth
+            )
         },
         contents() {
-            const val =
-                this.G.enemies.find(
-                    x =>
-                        x.position.x == this.coords.x &&
-                        x.position.y == this.coords.y
-                ) ||
-                this.G.players.find(
-                    x =>
-                        x.position.x == this.coords.x &&
-                        x.position.y == this.coords.y
-                )
+            const val = this.$store.getters['game/allEntities'].find(
+                x =>
+                    x.position.x == this.coords.x &&
+                    x.position.y == this.coords.y
+            )
 
             // empty
             if (!val) {
@@ -67,15 +64,13 @@ export default {
             return val
         },
         selectedSoldier() {
-            return this.G.players[this.$store.state.ui.selectedSoldierIndex]
+            return this.$store.getters['game/selectedSoldier']
         },
         containsSelectedSoldier() {
-            const contents = this.contents
-
             return (
-                contents &&
+                this.contents &&
                 this.selectedSoldier &&
-                contents.guid == this.selectedSoldier.guid
+                this.contents.guid == this.selectedSoldier.guid
             )
         },
         taxiDistance() {
@@ -113,7 +108,7 @@ export default {
                     .indexOf(this.contents.guid)
                 if (playerIndex > -1) {
                     // ...select it!
-                    this.$store.commit('ui/SET_SELECTED_SOLDIER', playerIndex)
+                    this.$store.commit('game/SET_SELECTED_SOLDIER', playerIndex)
                 }
             }
         }

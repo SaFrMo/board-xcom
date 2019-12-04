@@ -4,8 +4,8 @@
             v-for="(soldier, i) in G.players"
             :key="i"
             :soldier="soldier"
-            :selected="$store.state.ui.selectedSoldierIndex == i"
-            @click.native="$store.commit('ui/SET_SELECTED_SOLDIER', i)"
+            :selected="$store.state.game.selectedSoldierIndex == i"
+            @click.native="$store.commit('game/SET_SELECTED_SOLDIER', i)"
         />
     </section>
 </template>
