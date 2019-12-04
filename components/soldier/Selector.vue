@@ -1,6 +1,7 @@
 <template>
     <button :class="['soldier-selector', { selected }]">
-        {{ soldier.name }}
+        <span>{{ soldier.icon }}</span>
+        <span>{{ soldier.name }}</span>
     </button>
 </template>
 

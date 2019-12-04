@@ -23,10 +23,11 @@
         <button @click="cellClicked" class="button">
             <!-- Contents -->
             <div class="contents" v-if="contents">
-                <span>{{ contents.name }}</span>
-            </div>
+                <span>{{ contents.icon }}</span>
 
-            <!-- Context menu -->
+                <!-- Context menu -->
+                <unit-context :class="" :unit="contents" v-if="contents" />
+            </div>
         </button>
     </div>
 </template>
@@ -134,10 +135,33 @@ export default {
         height: 100%;
     }
     .contents {
-        transform: rotateZ(-45deg) rotateX(-45deg) translateZ(25px);
+        transform: rotateZ(-45deg) rotateX(calc(var(--isometric) * -1))
+            translateZ(100px);
         display: flex;
         flex-direction: column;
         font-size: 36px;
+        position: relative;
+        z-index: 10;
+    }
+    .unit-context {
+        position: absolute;
+        font-size: 18px;
+        top: 50%;
+        padding: 5px;
+        left: 100%;
+        transform: translateZ(-100px) translateY(-50%);
+        transition: opacity 0.3s;
+        pointer-events: none;
+        opacity: 0;
+    }
+    &:hover,
+    &:focus {
+        z-index: 1000;
+
+        .unit-context {
+            opacity: 1;
+            pointer-events: all;
+        }
     }
 
     &.normal-range:not(.contains-entity) {
