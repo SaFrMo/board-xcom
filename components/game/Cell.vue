@@ -137,6 +137,7 @@ export default {
         transform: rotateZ(-45deg) rotateX(-45deg) translateZ(25px);
         display: flex;
         flex-direction: column;
+        font-size: 36px;
     }
 
     &.normal-range:not(.contains-entity) {
